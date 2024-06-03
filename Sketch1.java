@@ -1,36 +1,29 @@
 import processing.core.PApplet;
 
 public class Sketch1 extends PApplet {
-	
-	
-  /**
-   * Called once at the beginning of execution, put your size all in this method
-   */
+  // variables
+  float[] fltSquare1 = new float[3];
+  float fltSquareSpeed = 5;
+
   public void settings() {
-	// put your size call here
-    size(400, 400);
+    size(800, 1000);
   }
 
-  /** 
-   * Called once at the beginning of execution.  Add initial set up
-   * values here i.e background, stroke, fill etc.
-   */
   public void setup() {
-    background(210, 255, 173);
+    background(0);
+    fltSquare1[0] = 100;
+    fltSquare1[1] = 300;
+    fltSquare1[2] = 500;
+    fltSquare1[3] = 700;
   }
 
-  /**
-   * Called repeatedly, anything drawn to the screen goes here
-   */
   public void draw() {
-	  
-	// sample code, delete this stuff
-    stroke(128);
-    line(150, 25, 270, 350);  
-
-    stroke(255);
-    line(50, 125, 70, 50);  
+    background(0);
+    fill(0, 255, 0);
+    rect(0, 600, width, 100);
+    for (int i = 0; i < fltSquare1.length; i++) {
+      rect(0, fltSquare1[i], width, 100);
+      fltSquare1[i] += fltSquareSpeed;
+    }
   }
-  
-  // define other methods down here.
 }
