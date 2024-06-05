@@ -4,7 +4,7 @@ public class Sketch extends PApplet {
   // variables
   int intNotes = 4;
   float[] fltSquare1 = new float[intNotes]; 
-  float fltSquareSpeed = 1;
+  float fltSquareSpeed = 8;
   boolean[] blnCanPressed = new boolean[intNotes];
   boolean[] blnHasPressed = new boolean[intNotes];
   int closestBlockIndex = -1; // Variable to store the closest block index
