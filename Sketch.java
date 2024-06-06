@@ -1,16 +1,16 @@
 import processing.core.PApplet;
 
 public class Sketch extends PApplet {
-  // variables
+  // Variables
   int intNotes = 4;
   float[] fltSquare1 = new float[intNotes]; 
   int[] intSize1 = new int[intNotes];
-  float fltSquareSpeed = 8;
+  float fltSquareSpeed = 1;
   boolean[] blnCanPressed = new boolean[intNotes];
   boolean[] blnHasPressed = new boolean[intNotes];
+  boolean[] blnHold = new boolean[intNotes];
   int closestBlockIndex = -1; // Variable to store the closest block index
   int intScore = 0; // keep score
-  int startTime = 0; // Variable to store the start time of the timer
   
   public void settings() {
     size(800, 1000);
@@ -18,15 +18,16 @@ public class Sketch extends PApplet {
 
   public void setup() {
     background(0);
-    fltSquare1[0] = -1000;
-    fltSquare1[1] = 0;
-    fltSquare1[2] = -100;
-    fltSquare1[3] = -3000; 
+    fltSquare1[0] = 10000;
+    fltSquare1[1] = 20000;
+    fltSquare1[2] = 30000;
+    fltSquare1[3] = 100; 
 
     // Initialize booleans
     for (int i = 0; i < fltSquare1.length; i++) {
       blnCanPressed[i] = false;
       blnHasPressed[i] = false;
+      blnHold[i] = false;
       intSize1[i] = 25;
     }
 
@@ -64,20 +65,12 @@ public class Sketch extends PApplet {
     
     // Update the closest block index
     closestBlockIndex = closestBlock();
-  
     
     // Display the score in the top right corner
     fill(255);
     textSize(20);
     textAlign(RIGHT, TOP);
     text("Score: " + intScore, width - 10, 10);
-
-    // Display the elapsed time in the top left corner
-    if (startTime > 0) { // If the timer has started
-      int elapsedTime = millis() - startTime; // Calculate elapsed time
-      textAlign(LEFT, TOP);
-      text("Time: " + elapsedTime + " ms", 10, 10);
-    }
   }
 
   // Method to handle key press
@@ -86,27 +79,54 @@ public class Sketch extends PApplet {
       if (closestBlockIndex != -1 && blnCanPressed[closestBlockIndex] && !blnHasPressed[closestBlockIndex]) {
         // Check the block's position
         if (fltSquare1[closestBlockIndex] + intSize1[closestBlockIndex] > 550 && fltSquare1[closestBlockIndex] < 650) {
-          blnHasPressed[closestBlockIndex] = true;
+          if (intSize1[closestBlockIndex] < 26){
+            blnHasPressed[closestBlockIndex] = true;
+          }
           // No points awarded for this zone
         } else if (fltSquare1[closestBlockIndex] + intSize1[closestBlockIndex] > 650 && fltSquare1[closestBlockIndex] < 700) {
-          blnHasPressed[closestBlockIndex] = true;
+          if (intSize1[closestBlockIndex] < 26){
+            blnHasPressed[closestBlockIndex] = true;
+          }
           intScore += 5;
         } else if (fltSquare1[closestBlockIndex] + intSize1[closestBlockIndex] > 700 && fltSquare1[closestBlockIndex] < 750) {
-          blnHasPressed[closestBlockIndex] = true;
+          if (intSize1[closestBlockIndex] < 26){
+            blnHasPressed[closestBlockIndex] = true;
+          } else if (intSize1[closestBlockIndex] > 26){
+            blnHold[closestBlockIndex] = true;
+          }
           intScore += 10;
-          startTime = millis(); // Start the timer
         } else if (fltSquare1[closestBlockIndex] + intSize1[closestBlockIndex] > 750 && fltSquare1[closestBlockIndex] < 800) {
-          blnHasPressed[closestBlockIndex] = true;
+          if (intSize1[closestBlockIndex] < 26){
+            blnHasPressed[closestBlockIndex] = true;
+          }
           intScore += 5;
         }
       }
     }
   }
 
-   public void keyReleased() {
+  public void keyReleased() {
     if (key == 'q' || key == 'Q') {
-      if (intSize1[closestBlockIndex] > 26){
-        
+      if (closestBlockIndex != -1 && blnCanPressed[closestBlockIndex] && !blnHasPressed[closestBlockIndex] && blnHold[closestBlockIndex]) {
+        // Ensure the release happens in the green zone
+        if (fltSquare1[closestBlockIndex] + intSize1[closestBlockIndex] > 700 && fltSquare1[closestBlockIndex] < 750) {
+          // Calculate the percentage of the block that has passed the target zone
+          float blockPassed = fltSquare1[closestBlockIndex] + intSize1[closestBlockIndex] - 750;
+          float blockLength = intSize1[closestBlockIndex];
+          float percentagePassed = blockPassed / blockLength;
+
+          if (percentagePassed >= 0.75) {
+            intScore += 5;
+          } else if (percentagePassed >= 0.5) {
+            intScore += 10;
+          } else if (percentagePassed >= 0.25) {
+            intScore += 15;
+          } else if (percentagePassed >= 0.10) {
+            intScore += 30;
+          }
+        }
+        blnHasPressed[closestBlockIndex] = true;
+        blnHold[closestBlockIndex] = false;
       }
     }
   }
@@ -124,6 +144,4 @@ public class Sketch extends PApplet {
     }
     return closestIndex;
   }
-  
- 
 }
