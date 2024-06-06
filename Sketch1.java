@@ -1,14 +1,16 @@
-/* import processing.core.PApplet;
+import processing.core.PApplet;
 
 public class Sketch1 extends PApplet {
   // variables
   int intNotes = 4;
   float[] fltSquare1 = new float[intNotes]; 
-  float fltSquareSpeed = 10;
+  int[] intSize1 = new int[intNotes];
+  float fltSquareSpeed = 8;
   boolean[] blnCanPressed = new boolean[intNotes];
   boolean[] blnHasPressed = new boolean[intNotes];
   int closestBlockIndex = -1; // Variable to store the closest block index
   int intScore = 0; // keep score
+  int startTime = 0; // Variable to store the start time of the timer
   
   public void settings() {
     size(800, 1000);
@@ -25,7 +27,10 @@ public class Sketch1 extends PApplet {
     for (int i = 0; i < fltSquare1.length; i++) {
       blnCanPressed[i] = false;
       blnHasPressed[i] = false;
+      intSize1[i] = 25;
     }
+
+    intSize1[3] = 300;
   }
 
   public void draw() {
@@ -46,11 +51,11 @@ public class Sketch1 extends PApplet {
     // Moving squares
     for (int i = 0; i < fltSquare1.length; i++) {
       fill(0, 0, 255);
-      rect(0, fltSquare1[i], width, 25);
+      rect(0, fltSquare1[i], width, intSize1[i]);
       fltSquare1[i] += fltSquareSpeed; 
       
       // Update clickable zone
-      if (fltSquare1[i] + 25 > 550 && fltSquare1[i] <= 800) {
+      if (fltSquare1[i] + intSize1[i] > 550 && fltSquare1[i] <= 800) {
         blnCanPressed[i] = true;
       } else {
         blnCanPressed[i] = false;
@@ -65,16 +70,17 @@ public class Sketch1 extends PApplet {
       if (key == 'q' || key == 'Q') {
         if (closestBlockIndex != -1 && blnCanPressed[closestBlockIndex] && !blnHasPressed[closestBlockIndex]) {
           // Check the block's position
-          if (fltSquare1[closestBlockIndex] > 550 && fltSquare1[closestBlockIndex] < 650) {
+          if (fltSquare1[closestBlockIndex] + intSize1[closestBlockIndex] > 550 && fltSquare1[closestBlockIndex] < 650) {
             blnHasPressed[closestBlockIndex] = true;
             // No points awarded for this zone
-          } else if (fltSquare1[closestBlockIndex] > 650 && fltSquare1[closestBlockIndex] < 700) {
+          } else if (fltSquare1[closestBlockIndex] + intSize1[closestBlockIndex] > 650 && fltSquare1[closestBlockIndex] < 700) {
             blnHasPressed[closestBlockIndex] = true;
             intScore += 5;
-          } else if (fltSquare1[closestBlockIndex] > 700 && fltSquare1[closestBlockIndex] < 750) {
+          } else if (fltSquare1[closestBlockIndex] + intSize1[closestBlockIndex] > 700 && fltSquare1[closestBlockIndex] < 750) {
             blnHasPressed[closestBlockIndex] = true;
             intScore += 10;
-          } else if (fltSquare1[closestBlockIndex] > 750 && fltSquare1[closestBlockIndex] < 800) {
+            startTime = millis(); // Start the timer
+          } else if (fltSquare1[closestBlockIndex] + intSize1[closestBlockIndex] > 750 && fltSquare1[closestBlockIndex] < 800) {
             blnHasPressed[closestBlockIndex] = true;
             intScore += 5;
           }
@@ -82,12 +88,21 @@ public class Sketch1 extends PApplet {
       }
       keyPressed = false; // Reset keyPressed
     }
+
+   
     
     // Display the score in the top right corner
     fill(255);
     textSize(20);
     textAlign(RIGHT, TOP);
     text("Score: " + intScore, width - 10, 10);
+
+    // Display the elapsed time in the top left corner
+    if (startTime > 0) { // If the timer has started
+      int elapsedTime = millis() - startTime; // Calculate elapsed time
+      textAlign(LEFT, TOP);
+      text("Time: " + elapsedTime + " ms", 10, 10);
+    }
   }
 
   // Method to return the closest block index
@@ -95,14 +110,12 @@ public class Sketch1 extends PApplet {
     int closestIndex = -1;
     float highestYValue = -Float.MAX_VALUE;
 
-    for (int i = 0; i < fltSquare1.length; i++) {
-      if (blnCanPressed[i] && !blnHasPressed[i] && fltSquare1[i] > highestYValue) {
+    for (int i = 0; i < fltSquare1.length; i++) { 
+      if (blnCanPressed[i] && !blnHasPressed[i] && fltSquare1[i] + intSize1[i] > highestYValue) {
         highestYValue = fltSquare1[i];
         closestIndex = i;
       }
     }
-    
     return closestIndex;
   }
 }
-*/
