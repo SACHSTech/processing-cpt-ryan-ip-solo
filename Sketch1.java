@@ -19,9 +19,9 @@ public class Sketch1 extends PApplet {
 
   public void setup() {
     background(0);
-    fltSquare1[0] = 10000;
-    fltSquare1[1] = 20000;
-    fltSquare1[2] = 30000;
+    //fltSquare1[0] = -300;
+    //fltSquare1[1] = -200;
+    fltSquare1[2] = 300;
     fltSquare1[3] = 100; 
 
     // Initialize booleans
@@ -75,29 +75,34 @@ public class Sketch1 extends PApplet {
   }
 
   // Method to handle key press
+  
   public void keyPressed() {
     if ((key == 'q' || key == 'Q') && !keyIsPressed) {
       keyIsPressed = true;
+      println("key pressed works closest block index: " + closestBlockIndex);
       if (closestBlockIndex != -1 && blnCanPressed[closestBlockIndex] && !blnHasPressed[closestBlockIndex]) {
         // Check the block's position
-        if (fltSquare1[closestBlockIndex] + intSize1[closestBlockIndex] > 550 && fltSquare1[closestBlockIndex] < 650) {
+        if ((fltSquare1[closestBlockIndex] + intSize1[closestBlockIndex]) > 550 && fltSquare1[closestBlockIndex]  + intSize1[closestBlockIndex] < 650) {
           if (intSize1[closestBlockIndex] < 26){
             blnHasPressed[closestBlockIndex] = true;
           }
+          println("no detection closest block index: " + closestBlockIndex + " y value" + fltSquare1[closestBlockIndex] + " " + + intSize1[closestBlockIndex]);
           // No points awarded for this zone
-        } else if (fltSquare1[closestBlockIndex] + intSize1[closestBlockIndex] > 650 && fltSquare1[closestBlockIndex] < 700) {
+        } else if (fltSquare1[closestBlockIndex] + intSize1[closestBlockIndex] > 650 && fltSquare1[closestBlockIndex]  + intSize1[closestBlockIndex] < 700) {
           if (intSize1[closestBlockIndex] < 26){
             blnHasPressed[closestBlockIndex] = true;
           }
+          println("red closest block index: " + closestBlockIndex + " y value" + (fltSquare1[closestBlockIndex] + intSize1[closestBlockIndex]) );
           intScore += 5;
-        } else if (fltSquare1[closestBlockIndex] + intSize1[closestBlockIndex] > 700 && fltSquare1[closestBlockIndex] < 750) {
+        } else if (fltSquare1[closestBlockIndex] + intSize1[closestBlockIndex] > 700 && fltSquare1[closestBlockIndex]  + intSize1[closestBlockIndex] < 750) {
           if (intSize1[closestBlockIndex] < 26){
             blnHasPressed[closestBlockIndex] = true;
           } else if (intSize1[closestBlockIndex] > 26){
             blnHold[closestBlockIndex] = true;
+            println("key pressed works");
           }
           intScore += 10;
-        } else if (fltSquare1[closestBlockIndex] + intSize1[closestBlockIndex] > 750 && fltSquare1[closestBlockIndex] < 800) {
+        } else if (fltSquare1[closestBlockIndex] + intSize1[closestBlockIndex] > 750 && fltSquare1[closestBlockIndex]  + intSize1[closestBlockIndex] < 800) {
           if (intSize1[closestBlockIndex] < 26){
             blnHasPressed[closestBlockIndex] = true;
           }
@@ -108,31 +113,41 @@ public class Sketch1 extends PApplet {
   }
 
   public void keyReleased() {
-    if (key == 'q' || key == 'Q') {
-      keyIsPressed = false;
-      if (closestBlockIndex != -1 && blnCanPressed[closestBlockIndex] && !blnHasPressed[closestBlockIndex] && blnHold[closestBlockIndex]) {
-        // Ensure the release happens in the green zone
-        if (fltSquare1[closestBlockIndex] + intSize1[closestBlockIndex] > 700 && fltSquare1[closestBlockIndex] < 750) {
-          // Calculate the percentage of the block that has passed the target zone
-          float blockPassed = fltSquare1[closestBlockIndex] + intSize1[closestBlockIndex] - 750;
-          float blockLength = intSize1[closestBlockIndex];
-          float percentagePassed = blockPassed / blockLength;
+  if (key == 'q' || key == 'Q') {
+    keyIsPressed = false;
+    println("key released closest block index: " + closestBlockIndex);
+    if (closestBlockIndex != -1 && blnCanPressed[closestBlockIndex] && !blnHasPressed[closestBlockIndex] && blnHold[closestBlockIndex]) {
+      // Ensure the release happens in the green zone
+      println("release in green zone " + closestBlockIndex);
+      if (fltSquare1[closestBlockIndex] + intSize1[closestBlockIndex] > 700 && fltSquare1[closestBlockIndex] < 750) {
+        // Calculate the percentage of the block that has passed the target zone
+        float blockPassed = fltSquare1[closestBlockIndex] + intSize1[closestBlockIndex] - 700;
+        float blockLength = intSize1[closestBlockIndex];
+        float percentagePassed = blockPassed / blockLength;
 
+        // Award points specifically for 95% or more hold
+        if (percentagePassed >= 0.95) {
+          intScore += 50; // Points awarded for holding 95% or more of block length
+        } else {
+          // Award points based on other hold percentages
           if (percentagePassed >= 0.75) {
-            intScore += 5;
+            intScore += 30; // Highest points for holding more than 75% of block length
           } else if (percentagePassed >= 0.5) {
-            intScore += 10;
+            intScore += 20; // 50-75% hold
           } else if (percentagePassed >= 0.25) {
-            intScore += 15;
+            intScore += 10; // 25-50% hold
           } else if (percentagePassed >= 0.10) {
-            intScore += 30;
+            intScore += 5; // 10-25% hold
           }
         }
-        blnHasPressed[closestBlockIndex] = true;
-        blnHold[closestBlockIndex] = false;
       }
+      blnHasPressed[closestBlockIndex] = true;
+      blnHold[closestBlockIndex] = false;
     }
   }
+}
+
+
   
   // Method to return the closest block index
   public int closestBlock() {
