@@ -125,7 +125,12 @@ public class Sketch extends PApplet {
       }
     }
     closestBlockIndex1 = closestBlock1();
-
+    if (closestBlockIndex1 != -1){
+      if (blnHold1[closestBlockIndex1] && intSize1[closestBlockIndex1] !=0){
+        intSize1[closestBlockIndex1] -= fltSquareSpeed;
+      }
+    }
+    
     // moving square 2 
     for (int i = 0; i < fltSquare2.length; i++) {
       if (!blnHasPressed2[i]){
@@ -141,6 +146,11 @@ public class Sketch extends PApplet {
       }
     }
     closestBlockIndex2 = closestBlock2();
+     if (closestBlockIndex2 != -1){
+      if (blnHold2[closestBlockIndex2] && intSize2[closestBlockIndex2] !=0){
+        intSize2[closestBlockIndex2] -= fltSquareSpeed;
+      }
+    }
 
     // moving square 3
     for (int i = 0; i < fltSquare3.length; i++) {
@@ -158,6 +168,12 @@ public class Sketch extends PApplet {
     }
     closestBlockIndex3 = closestBlock3();
 
+    if (closestBlockIndex3 != -1){
+      if (blnHold3[closestBlockIndex3] && intSize3[closestBlockIndex3] !=0){
+        intSize3[closestBlockIndex3] -= fltSquareSpeed;
+      }
+    }
+
     // moving square 4
     for (int i = 0; i < fltSquare4.length; i++) {
       if (!blnHasPressed4[i]){
@@ -174,6 +190,11 @@ public class Sketch extends PApplet {
     }
     // Update the closest block index
     closestBlockIndex4 = closestBlock4();
+    if (closestBlockIndex4 != -1){
+      if (blnHold4[closestBlockIndex4] && intSize4[closestBlockIndex4] !=0){
+        intSize4[closestBlockIndex4] -= fltSquareSpeed;
+      }
+    }
   
     // Display the score in the top right corner
     fill(255);
@@ -295,20 +316,21 @@ public class Sketch extends PApplet {
           float blockPassed = fltSquare1[closestBlockIndex1] + intSize1[closestBlockIndex1] - 700;
           float blockLength = intSize1[closestBlockIndex1];
           float percentagePassed = blockPassed / blockLength;
-
-          // Award points specifically for 95% or more hold
-          if (percentagePassed >= 0.95) {
-            intScore += 50; // Points awarded for holding 95% or more of block length
-          } else {
-            // Award points based on other hold percentages
-            if (percentagePassed >= 0.75) {
-              intScore += 30; // Highest points for holding more than 75% of block length
-            } else if (percentagePassed >= 0.5) {
-              intScore += 20; // 50-75% hold
-            } else if (percentagePassed >= 0.25) {
-              intScore += 10; // 25-50% hold
-            } else if (percentagePassed >= 0.10) {
-              intScore += 5; // 10-25% hold
+          if (intSize1[closestBlockIndex1] > 1){
+            // Award points specifically for 95% or more hold
+            if (percentagePassed >= 0.95) {
+              intScore += 50; // Points awarded for holding 95% or more of block length
+            } else {
+              // Award points based on other hold percentages
+              if (percentagePassed >= 0.75) {
+                intScore += 30; // Highest points for holding more than 75% of block length
+              } else if (percentagePassed >= 0.5) {
+                intScore += 20; // 50-75% hold
+              } else if (percentagePassed >= 0.25) {
+                intScore += 10; // 25-50% hold
+              } else if (percentagePassed >= 0.10) {
+                intScore += 5; // 10-25% hold
+              }
             }
           }
         }
@@ -326,20 +348,21 @@ public class Sketch extends PApplet {
           float blockPassed = fltSquare2[closestBlockIndex2] + intSize2[closestBlockIndex2] - 700;
           float blockLength = intSize2[closestBlockIndex2];
           float percentagePassed = blockPassed / blockLength;
-
-          // Award points specifically for 95% or more hold
-          if (percentagePassed >= 0.95) {
-            intScore += 50; // Points awarded for holding 95% or more of block length
-          } else {
-            // Award points based on other hold percentages
-            if (percentagePassed >= 0.75) {
-              intScore += 30; // Highest points for holding more than 75% of block length
-            } else if (percentagePassed >= 0.5) {
-              intScore += 20; // 50-75% hold
-            } else if (percentagePassed >= 0.25) {
-              intScore += 10; // 25-50% hold
-            } else if (percentagePassed >= 0.10) {
-              intScore += 5; // 10-25% hold
+          if (intSize2[closestBlockIndex2] > 1){
+            // Award points specifically for 95% or more hold
+            if (percentagePassed >= 0.95) {
+              intScore += 50; // Points awarded for holding 95% or more of block length
+            } else {
+              // Award points based on other hold percentages
+              if (percentagePassed >= 0.75) {
+                intScore += 30; // Highest points for holding more than 75% of block length
+              } else if (percentagePassed >= 0.5) {
+                intScore += 20; // 50-75% hold
+              } else if (percentagePassed >= 0.25) {
+                intScore += 10; // 25-50% hold
+              } else if (percentagePassed >= 0.10) {
+                intScore += 5; // 10-25% hold
+              }
             }
           }
         }
@@ -357,22 +380,23 @@ public class Sketch extends PApplet {
           float blockPassed = fltSquare3[closestBlockIndex3] + intSize3[closestBlockIndex3] - 700;
           float blockLength = intSize3[closestBlockIndex3];
           float percentagePassed = blockPassed / blockLength;
-
-          // Award points specifically for 95% or more hold
-          if (percentagePassed >= 0.95) {
-            intScore += 50; // Points awarded for holding 95% or more of block length
-          } else {
-            // Award points based on other hold percentages
-            if (percentagePassed >= 0.75) {
-              intScore += 30; // Highest points for holding more than 75% of block length
-            } else if (percentagePassed >= 0.5) {
-              intScore += 20; // 50-75% hold
-            } else if (percentagePassed >= 0.25) {
-              intScore += 10; // 25-50% hold
-            } else if (percentagePassed >= 0.10) {
-              intScore += 5; // 10-25% hold
+           if (intSize3[closestBlockIndex3] > 1){
+            // Award points specifically for 95% or more hold
+            if (percentagePassed >= 0.95) {
+              intScore += 50; // Points awarded for holding 95% or more of block length
+            } else {
+              // Award points based on other hold percentages
+              if (percentagePassed >= 0.75) {
+                intScore += 30; // Highest points for holding more than 75% of block length
+              } else if (percentagePassed >= 0.5) {
+                intScore += 20; // 50-75% hold
+              } else if (percentagePassed >= 0.25) {
+                intScore += 10; // 25-50% hold
+              } else if (percentagePassed >= 0.10) {
+                intScore += 5; // 10-25% hold
+              }
             }
-          }
+           }
         }
         blnHold3[closestBlockIndex3] = false;
         blnHasPressed3[closestBlockIndex3] = true;
@@ -388,20 +412,21 @@ public class Sketch extends PApplet {
           float blockPassed = fltSquare4[closestBlockIndex4] + intSize4[closestBlockIndex4] - 700;
           float blockLength = intSize4[closestBlockIndex4];
           float percentagePassed = blockPassed / blockLength;
-
-          // Award points specifically for 95% or more hold
-          if (percentagePassed >= 0.95) {
-            intScore += 50; // Points awarded for holding 95% or more of block length
-          } else {
-            // Award points based on other hold percentages
-            if (percentagePassed >= 0.75) {
-              intScore += 30; // Highest points for holding more than 75% of block length
-            } else if (percentagePassed >= 0.5) {
-              intScore += 20; // 50-75% hold
-            } else if (percentagePassed >= 0.25) {
-              intScore += 10; // 25-50% hold
-            } else if (percentagePassed >= 0.10) {
-              intScore += 5; // 10-25% hold
+          if (intSize4[closestBlockIndex4] > 1){
+            // Award points specifically for 95% or more hold
+            if (percentagePassed >= 0.95) {
+              intScore += 50; // Points awarded for holding 95% or more of block length
+            } else {
+              // Award points based on other hold percentages
+              if (percentagePassed >= 0.75) {
+                intScore += 30; // Highest points for holding more than 75% of block length
+              } else if (percentagePassed >= 0.5) {
+                intScore += 20; // 50-75% hold
+              } else if (percentagePassed >= 0.25) {
+                intScore += 10; // 25-50% hold
+              } else if (percentagePassed >= 0.10) {
+                intScore += 5; // 10-25% hold
+              }
             }
           }
         }
@@ -463,4 +488,113 @@ public class Sketch extends PApplet {
     }
     return closestIndex;
   }
+  private void level1(){
+    background(0);
+
+    // Max points
+    fill(0, 255, 0);
+    rect(0, 700, width, 50);
+    
+    // Half points
+    fill(255, 0, 0);
+    rect(0, 750, width, 50);
+    rect(0, 650, width, 50);
+
+    // No points zone if tap too early
+    fill(255);
+    rect(0, 550, width, 100);
+    
+    // Moving squares 1
+    for (int i = 0; i < fltSquare1.length; i++) {
+      if (!blnHasPressed1[i]){
+        fill(0, 0, 255);
+        rect(200, fltSquare1[i], 100, intSize1[i]);
+        fltSquare1[i] += fltSquareSpeed; 
+      }
+      // Update clickable zone
+      if (fltSquare1[i] + intSize1[i] > 550 && fltSquare1[i] <= 800) {
+        blnCanPressed1[i] = true;
+      } else {
+        blnCanPressed1[i] = false;
+      }
+    }
+    closestBlockIndex1 = closestBlock1();
+    if (closestBlockIndex1 != -1){
+      if (blnHold1[closestBlockIndex1] && intSize1[closestBlockIndex1] > 28){
+        intSize1[closestBlockIndex1] -= fltSquareSpeed;
+      }
+    }
+    
+    // moving square 2 
+    for (int i = 0; i < fltSquare2.length; i++) {
+      if (!blnHasPressed2[i]){
+        fill(0, 0, 255);
+        rect(300, fltSquare2[i], 100, intSize2[i]);
+        fltSquare2[i] += fltSquareSpeed;
+      }
+      // Update clickable zone
+      if (fltSquare2[i] + intSize2[i] > 550 && fltSquare2[i] <= 800) {
+        blnCanPressed2[i] = true;
+      } else {
+        blnCanPressed2[i] = false;
+      }
+    }
+    closestBlockIndex2 = closestBlock2();
+     if (closestBlockIndex2 != -1){
+      if (blnHold2[closestBlockIndex2] && intSize2[closestBlockIndex2] > 28){
+        intSize2[closestBlockIndex2] -= fltSquareSpeed;
+      }
+    }
+
+    // moving square 3
+    for (int i = 0; i < fltSquare3.length; i++) {
+      if (!blnHasPressed3[i]){
+        fill(0, 0, 255);
+        rect(400, fltSquare3[i], 100, intSize3[i]);
+        fltSquare3[i] += fltSquareSpeed;
+      }
+      // Update clickable zone
+      if (fltSquare3[i] + intSize3[i] > 550 && fltSquare3[i] <= 800) {
+        blnCanPressed3[i] = true;
+      } else {
+        blnCanPressed3[i] = false;
+      }
+    }
+    closestBlockIndex3 = closestBlock3();
+
+    if (closestBlockIndex3 != -1){
+      if (blnHold3[closestBlockIndex3] && intSize3[closestBlockIndex3] > 28){
+        intSize3[closestBlockIndex3] -= fltSquareSpeed;
+      }
+    }
+
+    // moving square 4
+    for (int i = 0; i < fltSquare4.length; i++) {
+      if (!blnHasPressed4[i]){
+        fill(0, 0, 255);
+        rect(500, fltSquare4[i], 100, intSize4[i]);
+        fltSquare4[i] += fltSquareSpeed;
+      }
+      // Update clickable zone
+      if (fltSquare4[i] + intSize4[i] > 550 && fltSquare4[i] <= 800) {
+        blnCanPressed4[i] = true;
+      } else {
+        blnCanPressed4[i] = false;
+      }
+    }
+    // Update the closest block index
+    closestBlockIndex4 = closestBlock4();
+    if (closestBlockIndex4 != -1){
+      if (blnHold4[closestBlockIndex4] && intSize4[closestBlockIndex4] > 28){
+        intSize4[closestBlockIndex4] -= fltSquareSpeed;
+      }
+    }
+  
+    // Display the score in the top right corner
+    fill(255);
+    textSize(20);
+    textAlign(RIGHT, TOP);
+    text("Score: " + intScore, width - 10, 10);
+  }
 }
+
